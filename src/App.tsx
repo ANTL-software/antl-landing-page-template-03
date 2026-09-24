@@ -1,11 +1,12 @@
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes, useSearchParams } from "react-router-dom";
 import { useRouteScroll } from "./hooks";
-import { CommerceNotFoundPage, CommercePage } from "./views/layouts/commercePage/CommercePage";
+import { CommerceNotFoundPage, CommercePage, PaymentCancelledPage, PaymentSuccessPage } from "./views/layouts/commercePage/CommercePage";
 
 function RoutedApp() {
   useRouteScroll();
 
-  return <Routes><Route path="/" element={<CommercePage />} /><Route path="*" element={<CommerceNotFoundPage />} /></Routes>;
+  const [searchParams] = useSearchParams();
+  return <Routes><Route path="/" element={<CommercePage />} /><Route path="/paiement/succes" element={<PaymentSuccessPage sessionId={searchParams.get("session_id")} />} /><Route path="/paiement/annule" element={<PaymentCancelledPage />} /><Route path="*" element={<CommerceNotFoundPage />} /></Routes>;
 }
 
 export default function App() {

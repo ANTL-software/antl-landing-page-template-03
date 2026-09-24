@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "check:payments": "tsc -p server/tsconfig.json",
+    "verify": "npm run build && npm run check:payments",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -14,9 +16,11 @@
     "react-dom": "^19.1.0",
     "react-icons": "^5.7.0",
     "react-router-dom": "^7.18.1",
+    "stripe": "^22.6.2",
     "vite": "^7.0.4"
   },
   "devDependencies": {
+    "@types/node": "^26.6.2",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "sass": "^1.89.2",

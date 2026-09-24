@@ -1,12 +1,61 @@
-import { FiArrowUpRight, FiShoppingBag, FiX } from "react-icons/fi";
+import { useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { FiArrowUpRight } from "react-icons/fi";
 import { commerceSite } from "../../../content/commerce";
 import { useCart } from "../../../hooks/useCart";
+import type { StoreSection } from "../../../types/commerce.types";
+import { CartDrawer } from "./components/CartDrawer";
+import { CommerceHeader } from "./components/CommerceHeader";
+import { HeroSection } from "./components/HeroSection";
+import { ProductCollection } from "./components/ProductCollection";
+import { StorySection } from "./components/StorySection";
+import { MarqueeSection } from "./components/MarqueeSection";
+import { RitualSection } from "./components/RitualSection";
+import { ServiceStrip } from "./components/ServiceStrip";
 import "./commercePage.scss";
+
+type ThemeVariable = "--store-ink" | "--store-paper" | "--store-cocoa" | "--store-sand" | "--store-accent" | "--store-muted" | "--store-display" | "--store-body" | "--store-radius";
+type ThemeStyle = CSSProperties & Record<ThemeVariable, string>;
+
+function themeStyle(): ThemeStyle {
+  const { palette, fonts, radius } = commerceSite.theme;
+  return { "--store-ink": palette.ink, "--store-paper": palette.paper, "--store-cocoa": palette.cocoa, "--store-sand": palette.sand, "--store-accent": palette.accent, "--store-muted": palette.muted, "--store-display": fonts.display, "--store-body": fonts.body, "--store-radius": radius };
+}
 
 export function CommercePage() {
   const cart = useCart();
-  const productsVisible = commerceSite.sections.some((section) => section.id === "products" && section.enabled);
-  return <main className="veloce"><div className="veloce__announcement">{commerceSite.announcement}</div><header className="veloce__header"><a href="#top" className="veloce__brand">{commerceSite.brand}</a><nav><a href="#shop">Boutique</a><a href="#histoire">L'histoire</a></nav><button className="veloce__cart" type="button" onClick={() => document.querySelector<HTMLDialogElement>("#cart")?.showModal()}><FiShoppingBag /> Panier <span>{cart.count}</span></button></header><section className="veloce__hero" id="top"><div><p>{commerceSite.hero.eyebrow}</p><h1>{commerceSite.hero.title}</h1><p>{commerceSite.hero.text}</p><a className="veloce__cta" href="#shop">Voir la collection <FiArrowUpRight /></a></div><img src={commerceSite.hero.image} alt="Assortiment de boissons VÉLOCE" /></section>{productsVisible ? <section className="veloce__shop" id="shop"><p className="veloce__eyebrow">La collection</p><h2>Choisissez votre tempo.</h2><div className="veloce__products">{commerceSite.products.map((product) => <article key={product.id}><div className="veloce__product-image" style={{ backgroundColor: product.accent }}><img src={product.image} alt={product.name} /></div><div><h3>{product.name}</h3><p>{product.description}</p><div><strong>{product.price.toFixed(2)} €</strong><button type="button" onClick={() => cart.add(product)}>Ajouter</button></div></div></article>)}</div></section> : null}<section className="veloce__story" id="histoire"><p className="veloce__eyebrow">À servir très frais</p><h2>Fabriqué pour les tables qui s'éternisent.</h2><p>VÉLOCE accompagne les apéritifs spontanés, les grands repas et les retours de marché. À boire pur, allongé ou mélangé.</p></section><footer>© 2026 {commerceSite.brand} · Template e-commerce antl</footer><dialog className="veloce__drawer" id="cart"><button className="veloce__close" type="button" onClick={() => document.querySelector<HTMLDialogElement>("#cart")?.close()}><FiX /></button><p className="veloce__eyebrow">Votre panier</p>{cart.lines.length ? <>{cart.lines.map((line) => <div className="veloce__line" key={line.product.id}><span>{line.product.name} × {line.quantity}</span><button type="button" onClick={() => cart.remove(line.product.id)}><FiX /></button></div>)}<strong>Total · {cart.total.toFixed(2)} €</strong><button className="veloce__checkout" type="button">Paiement à configurer</button></> : <p>Votre panier est vide.</p>}</dialog></main>;
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [lastAdded, setLastAdded] = useState("");
+  function addProduct(product: typeof commerceSite.products[number]) {
+    cart.add(product);
+    setLastAdded(product.name);
+    window.setTimeout(() => setLastAdded(""), 2600);
+  }
+  const sections: Record<StoreSection["id"], () => ReactNode> = {
+    hero: () => <HeroSection hero={commerceSite.hero} />,
+    marquee: () => <MarqueeSection items={commerceSite.marquee} />,
+    products: () => <ProductCollection collection={commerceSite.collection} products={commerceSite.products} onAdd={addProduct} />,
+    ritual: () => <RitualSection ritual={commerceSite.ritual} />,
+    services: () => <ServiceStrip services={commerceSite.services} />,
+    story: () => <StorySection story={commerceSite.story} />,
+  };
+  return <main className="veloce" lang={commerceSite.language} style={themeStyle()}>
+    <div className="veloce__announcement">{commerceSite.announcement}</div>
+    <CommerceHeader brand={commerceSite.brand} navigation={commerceSite.navigation} cartCount={cart.count} onOpenCart={() => dialogRef.current?.showModal()} />
+    {commerceSite.sections.filter((section) => section.enabled).map((section) => <div key={section.id}>{sections[section.id]()}</div>)}
+    <footer>© 2026 {commerceSite.brand} · {commerceSite.footer}</footer>
+    <CartDrawer dialogRef={dialogRef} lines={cart.lines} total={cart.total} onAdd={addProduct} onDecrease={cart.decrease} onRemove={cart.remove} />
+    {lastAdded ? <button className="veloce__toast" type="button" onClick={() => dialogRef.current?.showModal()}>{lastAdded} ajouté au panier <span>Voir le panier →</span></button> : null}
+  </main>;
 }
 
-export function CommerceNotFoundPage() { return <main className="veloce veloce__not-found"><p className="veloce__eyebrow">404</p><h1>Cette bouteille n'existe pas.</h1><a className="veloce__cta" href="#/">Retour à la boutique <FiArrowUpRight /></a></main>; }
+export function CommerceNotFoundPage() {
+  return <main className="veloce veloce__not-found" style={themeStyle()}><p className="veloce__eyebrow">404</p><h1>Cette bouteille n'existe pas.</h1><a className="veloce__cta" href="#/"><span>Retour à la boutique</span><FiArrowUpRight aria-hidden="true" /></a></main>;
+}
+
+export function PaymentSuccessPage({ sessionId }: { sessionId: string | null }) {
+  return <main className="veloce veloce__not-found" style={themeStyle()}><p className="veloce__eyebrow">Paiement reçu</p><h1>Merci pour votre commande.</h1><p>Nous préparons votre commande. Cette page ne remplace pas la confirmation reçue par webhook.</p>{sessionId ? <p className="veloce__session">Référence : {sessionId}</p> : null}<a className="veloce__cta" href="#/"><span>Retour à la boutique</span><FiArrowUpRight aria-hidden="true" /></a></main>;
+}
+
+export function PaymentCancelledPage() {
+  return <main className="veloce veloce__not-found" style={themeStyle()}><p className="veloce__eyebrow">Paiement annulé</p><h1>Votre panier vous attend.</h1><a className="veloce__cta" href="#/"><span>Retour à la boutique</span><FiArrowUpRight aria-hidden="true" /></a></main>;
+}
