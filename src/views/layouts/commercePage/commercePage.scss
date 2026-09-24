@@ -20,7 +20,7 @@
 .veloce__hero { position: relative; display: grid; grid-template-columns: 42% 58%; min-height: min(52rem, calc(100vh - 6rem)); overflow: hidden; background: var(--store-sand); }
 .veloce__hero > div { position: relative; z-index: 1; display: flex; padding: clamp(2rem, 6vw, 7rem); flex-direction: column; justify-content: center; }
 .veloce__hero p { max-width: 25rem; line-height: 1.5; }
-.veloce__hero h1, .veloce__shop h2, .veloce__story h2, .veloce__not-found h1, .veloce__drawer h2 { margin: .5rem 0 2rem; font-family: var(--store-display); font-size: clamp(3.5rem, 7vw, 8rem); font-weight: 400; letter-spacing: -.08em; line-height: .84; }
+.veloce__hero h1, .veloce__shop h2, .veloce__story h2, .veloce__not-found h1, .veloce__drawer h2 { margin: .5rem 0 2rem; font-family: var(--store-display); font-size: clamp(3.5rem, 7vw, 8rem); font-weight: 500; letter-spacing: -.045em; line-height: .92; }
 .veloce__hero > img { width: 100%; height: 100%; min-height: 24rem; object-fit: cover; object-position: center; transform: scale(1.015); }
 .veloce__cta, .veloce__checkout { display: inline-flex; width: max-content; gap: 2rem; padding: 1rem 1.25rem; border: 0; border-radius: var(--store-radius); background: var(--store-ink); color: var(--store-paper); align-items: center; font-size: .8rem; cursor: pointer; }
 .veloce .veloce__cta { margin-top: 1.35rem; color: var(--store-paper); }
@@ -30,6 +30,7 @@
 .veloce__marquee span { display: inline-flex; align-items: center; gap: 2rem; margin-right: 2rem; font-size: .74rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .veloce__marquee b { font-size: 1rem; }
 .veloce__shop { padding: 8rem 4vw; }
+.veloce__shop, .veloce__ritual, .veloce__story { scroll-margin-top: 5.75rem; }
 .veloce__eyebrow, .veloce__product-collection { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; }
 .veloce__shop h2 { max-width: 11ch; font-size: clamp(3rem, 5vw, 6rem); }
 .veloce__products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
@@ -39,29 +40,29 @@
 .veloce__product-image img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 500ms ease; }
 .veloce__products article:hover .veloce__product-image img { transform: scale(1.055); }
 .veloce__product-image > span { position: absolute; top: 1rem; left: 1rem; padding: .45rem .6rem; background: var(--store-paper); font-size: .65rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-.veloce__product-image > button { position: absolute; right: 1rem; bottom: 1rem; display: grid; width: 3rem; height: 3rem; padding: 0; border-radius: 50%; place-items: center; font-size: 1.4rem; }
+.veloce__product-image > button { position: absolute; right: 1.25rem; bottom: 1.25rem; display: flex; width: 3.25rem; height: 3.25rem; padding: 0 0 .08em; border-radius: 0; align-items: center; justify-content: center; font-size: 1.45rem; line-height: 1; }
 .veloce__products article > div:last-child { padding: 1.25rem; }
 .veloce__product-collection { margin: 0 0 .45rem; color: var(--store-muted); }
 .veloce__product-meta { display: flex; justify-content: space-between; align-items: baseline; }
 .veloce__product-meta > span { color: var(--store-muted); font-size: .75rem; }
-.veloce__products h3 { margin: 0; font-family: var(--store-display); font-size: 2rem; }
+.veloce__products h3 { margin: 0; font-family: var(--store-display); font-size: 2rem; font-weight: 600; letter-spacing: -.025em; line-height: 1; }
 .veloce__products p { min-height: 3rem; color: var(--store-muted); }
 .veloce__products ul { display: flex; flex-wrap: wrap; gap: .45rem; min-height: 2rem; margin: 1rem 0; padding: 0; list-style: none; }
-.veloce__products li { padding: .3rem .45rem; border: 1px solid color-mix(in srgb, var(--store-ink), transparent 78%); color: var(--store-muted); font-size: .68rem; }
+.veloce__products li { display: flex; min-height: 2rem; padding: .35rem .5rem; border: 1px solid color-mix(in srgb, var(--store-ink), transparent 78%); align-items: center; color: var(--store-muted); font-size: .68rem; line-height: 1; white-space: nowrap; }
 .veloce__products article > div:last-child > div { display: flex; justify-content: space-between; gap: 1rem; align-items: center; }
 .veloce__products button { border: 0; border-radius: var(--store-radius); padding: .75rem 1rem; background: var(--store-ink); color: var(--store-paper); cursor: pointer; }
 .veloce__products button:disabled { cursor: not-allowed; opacity: .45; }
 .veloce__story { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; padding: 7rem 4vw; background: var(--store-cocoa); color: var(--store-paper); }
-.veloce__story h2 { max-width: 9ch; font-size: clamp(3rem, 5vw, 6rem); }
+.veloce__story h2 { max-width: 9ch; font-size: clamp(3rem, 5vw, 6rem); line-height: .92; }
 .veloce__story > p:last-child { align-self: end; max-width: 27rem; line-height: 1.6; }
 .veloce__ritual { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(3rem, 8vw, 12rem); padding: 8rem 4vw; background: var(--store-paper); }
-.veloce__ritual h2 { max-width: 7ch; margin: .5rem 0 1.5rem; font-family: var(--store-display); font-size: clamp(3.5rem, 6vw, 7rem); font-weight: 500; letter-spacing: -.08em; line-height: .82; }
+.veloce__ritual h2 { max-width: 7ch; margin: .5rem 0 1.5rem; font-family: var(--store-display); font-size: clamp(3.5rem, 6vw, 7rem); font-weight: 500; letter-spacing: -.045em; line-height: .92; }
 .veloce__ritual-intro > p:not(.veloce__eyebrow) { max-width: 30rem; color: var(--store-muted); line-height: 1.6; }
 .veloce__ritual-intro > svg { margin-top: 2rem; font-size: 2rem; }
 .veloce__ritual ol { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--store-ink); }
 .veloce__ritual li { display: grid; grid-template-columns: 4rem 1fr; gap: 1rem; padding: 2rem 0; border-bottom: 1px solid var(--store-ink); }
 .veloce__ritual li > span { font-size: .72rem; font-weight: 700; letter-spacing: .1em; }
-.veloce__ritual h3 { margin: 0; font-family: var(--store-display); font-size: 2.2rem; font-weight: 500; }
+.veloce__ritual h3 { margin: 0; font-family: var(--store-display); font-size: 2.2rem; font-weight: 600; letter-spacing: -.02em; line-height: 1; }
 .veloce__ritual li p { margin: .55rem 0 0; color: var(--store-muted); line-height: 1.5; }
 .veloce__services { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--store-ink); background: var(--store-sand); }
 .veloce__services article { display: flex; min-height: 11rem; gap: 1rem; padding: 2rem 2.5vw; border-right: 1px solid var(--store-ink); }
@@ -103,7 +104,7 @@
   .veloce__header nav { display: none; }
   .veloce__hero { grid-template-columns: 1fr; }
   .veloce__hero > div { min-height: 25rem; padding: 5rem 1rem 2.5rem; }
-  .veloce__hero h1 { max-width: 7ch; font-size: clamp(3.7rem, 17vw, 5rem); }
+  .veloce__hero h1 { max-width: 7ch; font-size: clamp(3.7rem, 17vw, 5rem); line-height: .9; }
   .veloce__hero > img { height: 21rem; min-height: 0; object-position: center; }
   .veloce__products { grid-template-columns: 1fr; }
   .veloce__shop, .veloce__story, .veloce__ritual { padding: 5rem 1rem; }

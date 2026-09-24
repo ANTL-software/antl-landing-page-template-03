@@ -21,6 +21,11 @@ function themeStyle(): ThemeStyle {
   return { "--store-ink": palette.ink, "--store-paper": palette.paper, "--store-cocoa": palette.cocoa, "--store-sand": palette.sand, "--store-accent": palette.accent, "--store-muted": palette.muted, "--store-display": fonts.display, "--store-body": fonts.body, "--store-radius": radius };
 }
 
+function scrollToSection(target: string) {
+  const id = target.replace(/^#/, "");
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 export function CommercePage() {
   const cart = useCart();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -31,7 +36,7 @@ export function CommercePage() {
     window.setTimeout(() => setLastAdded(""), 2600);
   }
   const sections: Record<StoreSection["id"], () => ReactNode> = {
-    hero: () => <HeroSection hero={commerceSite.hero} />,
+    hero: () => <HeroSection hero={commerceSite.hero} onNavigate={scrollToSection} />,
     marquee: () => <MarqueeSection items={commerceSite.marquee} />,
     products: () => <ProductCollection collection={commerceSite.collection} products={commerceSite.products} onAdd={addProduct} />,
     ritual: () => <RitualSection ritual={commerceSite.ritual} />,
@@ -40,7 +45,7 @@ export function CommercePage() {
   };
   return <main className="veloce" lang={commerceSite.language} style={themeStyle()}>
     <div className="veloce__announcement">{commerceSite.announcement}</div>
-    <CommerceHeader brand={commerceSite.brand} navigation={commerceSite.navigation} cartCount={cart.count} onOpenCart={() => dialogRef.current?.showModal()} />
+    <CommerceHeader brand={commerceSite.brand} navigation={commerceSite.navigation} cartCount={cart.count} onOpenCart={() => dialogRef.current?.showModal()} onNavigate={scrollToSection} />
     {commerceSite.sections.filter((section) => section.enabled).map((section) => <div key={section.id}>{sections[section.id]()}</div>)}
     <footer>© 2026 {commerceSite.brand} · {commerceSite.footer}</footer>
     <CartDrawer dialogRef={dialogRef} lines={cart.lines} total={cart.total} onAdd={addProduct} onDecrease={cart.decrease} onRemove={cart.remove} />
