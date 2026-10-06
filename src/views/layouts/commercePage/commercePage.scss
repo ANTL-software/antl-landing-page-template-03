@@ -92,19 +92,43 @@
 .veloce__toast { position: fixed; z-index: 30; right: 1.25rem; bottom: 1.25rem; display: flex; gap: 1.5rem; padding: 1rem 1.25rem; border: 1px solid var(--store-paper); background: var(--store-ink); color: var(--store-paper); box-shadow: .35rem .35rem 0 var(--store-accent); cursor: pointer; font-size: .8rem; animation: veloce-toast 240ms ease-out; }
 .veloce__toast span { text-decoration: underline; text-underline-offset: .25rem; }
 .veloce__not-found { display: flex; padding: 10vw; flex-direction: column; justify-content: center; }
-.veloce__not-found h1 { max-width: 8ch; }
+.veloce__not-found h1 { max-width: 8ch; overflow-wrap: anywhere; font-size: clamp(2.6rem, 7vw, 8rem); }
+.veloce__session { overflow-wrap: anywhere; }
 .veloce__not-found > p { max-width: 36rem; line-height: 1.6; }
 .veloce__session { font-family: monospace; font-size: .8rem; }
 
 @keyframes veloce-marquee { to { transform: translateX(-50%); } }
 @keyframes veloce-toast { from { opacity: 0; transform: translateY(1rem); } }
 
+.veloce button,.veloce__header a { min-height: 44px; touch-action: manipulation; }
+.veloce__header a { display: inline-flex; align-items: center; }
+.veloce__hero>div,.veloce__products article,.veloce__ritual>* { min-width: 0; }
+.veloce__hero h1,.veloce__shop h2,.veloce__story h2,.veloce__ritual h2,.veloce__not-found h1,.veloce__drawer h2 { line-height: 1.08; }
+.veloce__products h3,.veloce__ritual h3 { line-height: 1.15; }
+.veloce__cta { max-width: 100%; }
+.veloce__quantity button,.veloce__close { min-width: 44px; min-height: 44px; place-items: center; }
+.veloce__drawer { height: 100dvh; max-height: 100dvh; min-height: 0; max-width: 100%; overflow-y: auto; overscroll-behavior: contain; overflow-wrap: anywhere; }
+.veloce__line>div:first-child { min-width: 0; }
+.veloce__quantity { flex-shrink: 0; }
+.veloce__toast { max-width: calc(100% - 2rem); }
+@media (max-width: 1100px) and (min-width: 761px) {
+  .veloce__hero { grid-template-columns: 1fr 1fr; }
+  .veloce__hero>div { padding: 2rem; }
+  .veloce__hero h1 { font-size: clamp(3rem,6vw,5rem); }
+  .veloce__products { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (prefers-reduced-motion: reduce) { .veloce__marquee>div,.veloce__toast { animation: none; }.veloce__products article,.veloce__product-image img { transition: none; } }
+
 @media (max-width: 760px) {
   .veloce__header { grid-template-columns: 1fr auto; padding: 1rem; }
-  .veloce__header nav { display: none; }
+  .veloce__header nav { display: flex; grid-column: 1 / -1; grid-row: 2; justify-content: space-between; gap: .75rem; font-size: .8rem; }
+  .veloce__cart { grid-column: 2; grid-row: 1; }
+  .veloce__header { padding-block: .5rem; }
+  .veloce__shop,.veloce__ritual,.veloce__story { scroll-margin-top: 8rem; }
   .veloce__hero { grid-template-columns: 1fr; }
   .veloce__hero > div { min-height: 25rem; padding: 5rem 1rem 2.5rem; }
   .veloce__hero h1 { max-width: 7ch; font-size: clamp(3.7rem, 17vw, 5rem); line-height: .9; }
+  .veloce__hero h1 { line-height: 1.08; }
   .veloce__hero > img { height: 21rem; min-height: 0; object-position: center; }
   .veloce__products { grid-template-columns: 1fr; }
   .veloce__shop, .veloce__story, .veloce__ritual { padding: 5rem 1rem; }
@@ -117,4 +141,9 @@
   .veloce__services article { min-height: auto; padding: 1.4rem 1rem; border-right: 0; border-bottom: 1px solid var(--store-ink); }
   .veloce__services article:last-child { border-bottom: 0; }
   .veloce__toast { right: 1rem; bottom: 1rem; left: 1rem; justify-content: space-between; }
+  .veloce__drawer { padding: 1.25rem; padding-bottom: max(1.25rem,env(safe-area-inset-bottom)); }
+  .veloce__drawer h2 { font-size: 2.5rem; }
+  .veloce__line { flex-direction: column; }
+  .veloce__quantity { justify-content: flex-end; }
+  .veloce__product-image { height: auto; aspect-ratio: 4 / 5; }
 }
